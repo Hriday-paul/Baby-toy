@@ -14,9 +14,9 @@ const SingleToy = ({ toy }) => {
     console.log(toy.rating);
 
 
-    const handleAddCart = (id) => {
+    const handleAddCart = (details) => {
         if (userInfo) {
-            axiosPrivate.post(`/addCart`, { email: userInfo.email, toyId: id })
+            axiosPrivate.post(`/addCart`, { email: userInfo.email, ...details })
                 .then(() => {
                     toast.success('Add to cart Successfully')
                 })
@@ -52,7 +52,7 @@ const SingleToy = ({ toy }) => {
                         </div>
                     </div>
                     <div className="flex justify-between">
-                        <button onClick={() => handleAddCart(toy._id)} className="hover:border-white/40 w-full hover:bg-[#00C4CC] flex items-center justify-center rounded-md border border-transparent bg-[#00C4CC] px-5 py-1.5 md:py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 duration-200 focus:ring-[#00C4CC]">
+                        <button onClick={() => handleAddCart(toy)} className="hover:border-white/40 w-full hover:bg-[#00C4CC] flex items-center justify-center rounded-md border border-transparent bg-[#00C4CC] px-5 py-1.5 md:py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 duration-200 focus:ring-[#00C4CC]">
                             Add to cart
                             <BsArrowRight className="ml-1"></BsArrowRight>
                         </button>

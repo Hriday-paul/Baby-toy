@@ -7,6 +7,7 @@ import Private from "../component/Shared/Private/Private";
 import Login from "../Pages/Login/Login";
 import AllToys from "../Pages/AllToys/AllToys";
 import ToyDetails from "../Pages/ToyDetails/ToyDetails";
+import Mycart from "../Pages/MyCart/Mycart";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "/shop/:type",
         element: <AllToys></AllToys>
+      },
+      {
+        path: "/myCart",
+        element: <Private><Mycart></Mycart></Private>
       },
       {
         path: "/toy/:ageType/:id",

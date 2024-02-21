@@ -3,13 +3,17 @@ import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged,
 import { useEffect } from 'react'
 import auth from '../../firebase.config'
 import axios from "axios";
+import UseAxiosPublic from "../../Hooks/UseAxiosPublic/UseAxiosPublic";
 
 export const authContext = createContext(null);
 
 const Authonicate = ({ children }) => {
+    const [cartToys, setCartToys] = useState([]);
     const [userInfo, setUserInfo] = useState({});
     const [loading, setLoading] = useState(true);
     const provider = new GoogleAuthProvider();
+    const axiosPublic = UseAxiosPublic();
+
 
     const createUser = (email, pass) => {
         console.log(email, pass);
@@ -30,6 +34,13 @@ const Authonicate = ({ children }) => {
     const logOut = () => {
         setLoading(true)
         return signOut(auth);
+    }
+
+    const getCartToys = (email)=>{
+        axiosPublic.get(`/toyCart/${email}`)
+        .then(({data})=>{
+            setCartToys(data)
+        })
     }
 
     useEffect(() => {
@@ -55,7 +66,10 @@ const Authonicate = ({ children }) => {
         createUser,
         userLogin,
         googleLogin,
-        logOut
+        logOut,
+        loading,
+        getCartToys,
+        cartToys
     }
 
     return (

@@ -4,19 +4,24 @@ import { CiSearch } from "react-icons/ci";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { BsCart3 } from "react-icons/bs";
 import { Link, NavLink } from 'react-router-dom';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { authContext } from '../../../ContextHandler/Authonicate/Authonicate';
 import { PiSignOutFill } from "react-icons/pi";
 import { SiGnuprivacyguard } from "react-icons/si";
 
 const Navbar = ({ dark }) => {
-    const { userInfo, logOut } = useContext(authContext);
+    const { userInfo, logOut, getCartToys, cartToys } = useContext(authContext);
     const [showProfile, setShowProfile] = useState(false);
 
     const handleDark = (e) => {
         dark(e.target.checked)
     }
 
+    useEffect(()=>{
+        if(userInfo){
+            getCartToys(userInfo.email)
+        }
+    }, [])
 
 
     return (

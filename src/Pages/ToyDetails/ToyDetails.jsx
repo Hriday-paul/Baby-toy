@@ -25,9 +25,9 @@ const ToyDetails = () => {
             })
     }, [id])
 
-    const handleAddCart = (id) => {
+    const handleAddCart = (detail) => {
         if (userInfo) {
-            axiosPrivate.post(`/addCart`, { email: userInfo.email, toyId: id })
+            axiosPrivate.post(`/addCart`, { email: userInfo.email, ...detail })
                 .then(() => {
                     toast.success('Add to cart Successfully')
                 })
@@ -45,17 +45,14 @@ const ToyDetails = () => {
             {
                 loading ?
 
-                    <div className="max-w-[450px] min-h-screen w-full animate-pulse bg-white flex justify-between  items-center gap-6 mx-auto p-6 rounded-md shadow-xl ">
-                        {/* user post skeleton */}
-                        <div className=" flex ">
-                            <div className="w-32 h-32 rounded-lg bg-gray-300 animate-pulse"></div>
-                        </div>
-                        {/* User profile  Skeleton */}
-                        <div className="mt-8 w-full flex  flex-col justify-center">
-                            <div className="w-[60%] rounded-lg bg-gray-300 h-7 mb-5"></div>
-                            <div className="w-[100%] rounded-lg bg-gray-300 h-5 mb-3"></div>
-                            <div className="w-[40%] rounded-lg bg-gray-300 h-[13px] mb-3"></div>
-                            <div className="w-[80%] rounded-lg bg-gray-300 h-5"></div>
+                    <div className=" p-6 rounded-md shadow-md">
+                        <div className="animate-pulse">
+                            {/* Product Image Skeleton */}
+                            <div className="w-64 lg:h-64 md:h-52 h-48 rounded-lg bg-gray-300 mb-4"></div>
+                            {/* Product Title Skeleton */}
+                            <div className="w-2/3 h-8 rounded-lg bg-gray-300 mb-4"></div>
+                            {/* Product Description Skeleton */}
+                            <div className="w-full h-16 rounded-lg bg-gray-300 mb-4"></div>
                         </div>
                     </div>
 
@@ -93,8 +90,6 @@ const ToyDetails = () => {
                                                 <td className="text-base font-medium ">{details?.ageType}</td>
                                             </tr>
 
-
-
                                             <tr className="bg-gray-500 rounded-lg text-white">
                                                 <td className="text-lg font-medium">Price</td>
                                                 <td className="text-base font-medium">${details?.price}</td>
@@ -102,7 +97,7 @@ const ToyDetails = () => {
                                         </tbody>
 
                                     </table>
-                                    <button onClick={() => handleAddCart(details._id)} className="hover:border-white/40 w-full mt-8 hover:bg-blue-700 flex items-center justify-center rounded-md border border-transparent bg-blue-600 p-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 duration-200 focus:ring-blue-300">
+                                    <button onClick={() => handleAddCart(details)} className="hover:border-white/40 w-full mt-8 hover:bg-blue-700 flex items-center justify-center rounded-md border border-transparent bg-blue-600 p-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 duration-200 focus:ring-blue-300">
                                         <BsCartCheck className="text-lg font-bold mr-1"></BsCartCheck> Add to cart</button>
                                 </div>
 
