@@ -6,9 +6,12 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import router from './Rout/Rout.jsx';
+import Authonicate from './ContextHandler/Authonicate/Authonicate.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Authonicate>
+      <RouterProvider router={router} />
+    </Authonicate>
   </React.StrictMode>
 )
