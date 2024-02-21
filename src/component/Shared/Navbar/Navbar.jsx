@@ -34,7 +34,7 @@ const Navbar = ({ dark }) => {
                                 <span className='absolute left-0 -bottom-2 h-0.5 w-0 group-hover:w-full bg-[#00C4CC] duration-200'></span>
                             </li>
                             <li className='text-xl font-medium relative group'>
-                                <NavLink to='/shop'>Shop</NavLink>
+                                <NavLink to='/shop/all'>Shop</NavLink>
                                 <span className='absolute left-0 -bottom-2 h-0.5 w-0 group-hover:w-full bg-[#00C4CC] duration-200'></span>
                             </li>
                             <li className='text-xl font-medium relative group'>

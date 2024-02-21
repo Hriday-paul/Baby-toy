@@ -1,9 +1,17 @@
 import { Spin } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import UploadFile from "../../Hooks/UploadFile/UploadFile";
+import toast, { Toaster } from "react-hot-toast";
+import UseAxiosPublic from '../../Hooks/UseAxiosPublic/UseAxiosPublic';
+import { authContext } from "../../ContextHandler/Authonicate/Authonicate";
 
 const AddToy = () => {
     const [loader, setLoader] = useState(false);
+    const axiosPublic = UseAxiosPublic();
+    const {userInfo} = useContext(authContext);
+
     const handleSubmit = (e) => {
+        setLoader(true);
         e.preventDefault();
         const form = e.target;
         const file = form.image.files[0];
@@ -14,7 +22,36 @@ const AddToy = () => {
         const ageType = form.ageType.value;
         const details = form.details.value;
 
-        console.log(name, price, rating, brand, ageType, details);
+        UploadFile(file)
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data.secure_url);
+                axiosPublic.post('/addToy', {
+                    email : userInfo.email,
+                    img: data.secure_url,
+                    name,
+                    price: parseInt(price),
+                    rating: parseFloat(rating),
+                    brand,
+                    ageType,
+                    details
+                })
+                    .then(() => {
+                        form.reset();
+                        toast.success('Your toy added succesfully');
+                        setLoader(false)
+                    })
+                    .catch(() => {
+                        form.reset();
+                        toast.error('Something wents wrong, try again!');
+                        setLoader(false)
+                    })
+            })
+            .catch(() => {
+                toast.error('file upload failed, try again');
+            });
+
+
     }
     return (
         <Spin spinning={loader} size="large">
@@ -69,6 +106,7 @@ const AddToy = () => {
 
                         </form>
                     </div>
+                    <Toaster></Toaster>
                 </div>
             </div>
         </Spin>
