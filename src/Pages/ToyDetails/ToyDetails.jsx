@@ -4,7 +4,6 @@ import UseAxiosPublic from '../../Hooks/UseAxiosPublic/UseAxiosPublic'
 import { Image, Rate } from "antd";
 import { BsCartCheck } from 'react-icons/bs';
 import toast, { Toaster } from "react-hot-toast";
-import UseAxiosPrivate from '../../Hooks/UseAxiosPrivate/UseAxiosPrivate'
 import { authContext } from "../../ContextHandler/Authonicate/Authonicate";
 
 
@@ -13,8 +12,8 @@ const ToyDetails = () => {
     const axiosPublic = UseAxiosPublic();
     const [loading, setLoading] = useState(true);
     const [details, setDetails] = useState({});
-    const axiosPrivate = UseAxiosPrivate();
-    const { userInfo } = useContext(authContext);
+    
+    const { userInfo, getCartToys } = useContext(authContext);
     const navig = useNavigate();
 
     useEffect(() => {
@@ -27,9 +26,10 @@ const ToyDetails = () => {
 
     const handleAddCart = (detail) => {
         if (userInfo) {
-            axiosPrivate.post(`/addCart`, { email: userInfo.email, ...detail })
+            axiosPublic.post(`/addCart`, { email: userInfo.email, ...detail })
                 .then(() => {
-                    toast.success('Add to cart Successfully')
+                    toast.success('Add to cart Successfully');
+                    getCartToys(userInfo?.email)
                 })
                 .catch(() => {
                     toast.error('Add cart failed, try again!')

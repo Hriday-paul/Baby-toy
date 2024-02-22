@@ -8,20 +8,30 @@ import { useContext, useEffect, useState } from 'react';
 import { authContext } from '../../../ContextHandler/Authonicate/Authonicate';
 import { PiSignOutFill } from "react-icons/pi";
 import { SiGnuprivacyguard } from "react-icons/si";
+import { Drawer } from 'antd';
+import SingleCart from '../SingleCart/SingleCart';
 
 const Navbar = ({ dark }) => {
     const { userInfo, logOut, getCartToys, cartToys } = useContext(authContext);
     const [showProfile, setShowProfile] = useState(false);
+    const [openDrawer, setOpenDrawer] = useState(false);
+
+    const showDrawer = () => {
+        setOpenDrawer(true);
+    };
+    const onClose = () => {
+        setOpenDrawer(false);
+    };
 
     const handleDark = (e) => {
         dark(e.target.checked)
     }
 
-    useEffect(()=>{
-        if(userInfo){
+    useEffect(() => {
+        if (userInfo) {
             getCartToys(userInfo.email)
         }
-    }, [])
+    }, [userInfo])
 
 
     return (
@@ -29,9 +39,9 @@ const Navbar = ({ dark }) => {
             <div className="max-w-7xl mx-auto">
                 {/* large device  */}
                 <div className="grid grid-cols-2 lg:grid-cols-3 justify-between items-center gap-x-5">
-                    <div>
+                    <Link to='/'>
                         <img className='h-16 md:h-20 lg:h-24 ' src={logo} alt="logo" />
-                    </div>
+                    </Link>
                     <div className='hidden lg:block'>
                         <ul className='flex flex-row gap-x-10 items-center justify-center font-nunito'>
                             <li className='text-xl font-medium relative group'>
@@ -43,7 +53,7 @@ const Navbar = ({ dark }) => {
                                 <span className='absolute left-0 -bottom-2 h-0.5 w-0 group-hover:w-full bg-[#00C4CC] duration-200'></span>
                             </li>
                             <li className='text-xl font-medium relative group'>
-                                <NavLink to='/myCart'>My Cart</NavLink>
+                                <NavLink to='/myToys'>My Toys</NavLink>
                                 <span className='absolute left-0 -bottom-2 h-0.5 w-0 group-hover:w-full bg-[#00C4CC] duration-200'></span>
                             </li>
                             <li className='text-xl font-medium relative group'>
@@ -67,38 +77,55 @@ const Navbar = ({ dark }) => {
                             {
                                 userInfo && <div className={`z-50 w-[220px] absolute right-0 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 duration-300 ${showProfile ? 'top-5 h-auto' : 'top-8 h-0 overflow-hidden'}`} id="user-dropdown">
 
-                                <div className="flex flex-row flex-shrink items-center gap-x-2 text-base font-medium whitespace-nowrap px-3 py-3">
+                                    <div className="flex flex-row flex-shrink items-center gap-x-2 text-base font-medium whitespace-nowrap px-3 py-3">
 
 
-                                    <div className="avatar z-40">
-                                        <div className="w-7 h-7 rounded-full z-40">
-                                            <img className="z-40" src={userInfo?.photoURL ? `${userInfo?.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
+                                        <div className="avatar z-40">
+                                            <div className="w-7 h-7 rounded-full z-40">
+                                                <img className="z-40" src={userInfo?.photoURL ? `${userInfo?.photoURL}` : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUDOlaA7x6auc_yDvEigMgyktyrJBM34AFOaauo6-qXD5zg_vpZlZk9offXf9PMLdA0Lw&usqp=CAU"} alt="img" />
+                                            </div>
                                         </div>
+
+                                        <span className="truncate">
+                                            <h3 className="block text-sm text-gray-900 dark:text-white truncate">{userInfo?.displayName}</h3>
+                                            <p className="truncate block text-sm  text-gray-500 dark:text-gray-400">{userInfo?.email}</p>
+                                        </span>
+
                                     </div>
+                                    <ul className="py-2" aria-labelledby="user-menu-button">
 
-                                    <span className="truncate">
-                                        <h3 className="block text-sm text-gray-900 dark:text-white truncate">{userInfo?.displayName}</h3>
-                                        <p className="truncate block text-sm  text-gray-500 dark:text-gray-400">{userInfo?.email}</p>
-                                    </span>
+                                        <li>
+                                            <Link to="/register" className="flex items-center gap-x-1 px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-white"><PiSignOutFill></PiSignOutFill>Register</Link>
+                                        </li>
 
+                                        <li>
+                                            <div onClick={logOut} className="px-4 mt-2 flex items-center gap-x-1 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-white cursor-pointer"><SiGnuprivacyguard className='text-red-500'></SiGnuprivacyguard>Sign out</div>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <ul className="py-2" aria-labelledby="user-menu-button">
-
-                                    <li>
-                                        <Link to="/register" className="flex items-center gap-x-1 px-4 py-2 text-sm text-gray-800 hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-white"><PiSignOutFill></PiSignOutFill>Register</Link>
-                                    </li>
-                                    
-                                    <li>
-                                        <div onClick={logOut} className="px-4 mt-2 flex items-center gap-x-1 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 dark:text-white cursor-pointer"><SiGnuprivacyguard className='text-red-500'></SiGnuprivacyguard>Sign out</div>
-                                    </li>
-                                </ul>
-                            </div>
                             }
                         </div>
 
 
 
-                        <BsCart3 className='text-2xl'></BsCart3>
+
+                        <div className='relative'>
+                            <BsCart3 className='text-2xl cursor-pointer' onClick={showDrawer}></BsCart3>
+                            <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-[#00C4CC] border-2 border-white rounded-full -top-3 -end-3 dark:border-gray-900">{cartToys.length}</div>
+
+                            <Drawer title="My cart" onClose={onClose} open={openDrawer}>
+                                <div className='flex flex-col gap-y-2 '>
+                                    {
+                                        cartToys.length>0 ? cartToys?.map((toy) => {
+                                            return <SingleCart key={toy._id} cartToy={toy}></SingleCart>
+                                        }) : <div className='min-h-80 flex flex-col items-center justify-center'>
+                                            <img className='h-40 w-40' src='https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-7359557-6024626.png' />
+                                            <h3 className='text-xl font-nunito '>You have no cart</h3>
+                                        </div>
+                                    }
+                                </div>
+                            </Drawer>
+                        </div>
 
                         <label className="swap swap-rotate lg:mr-5">
 

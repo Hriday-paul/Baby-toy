@@ -25,7 +25,6 @@ const AddToy = () => {
         UploadFile(file)
             .then((response) => response.json())
             .then((data) => {
-                console.log(data.secure_url);
                 axiosPublic.post('/addToy', {
                     email : userInfo.email,
                     img: data.secure_url,

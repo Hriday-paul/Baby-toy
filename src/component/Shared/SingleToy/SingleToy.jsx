@@ -4,23 +4,23 @@ import { BsArrowRight } from 'react-icons/bs';
 import { Rate } from "antd";
 import { useContext } from "react";
 import { authContext } from "../../../ContextHandler/Authonicate/Authonicate";
-import UseAxiosPrivate from "../../../Hooks/UseAxiosPrivate/UseAxiosPrivate";
+import UseAxiosPublic from "../../../Hooks/UseAxiosPublic/UseAxiosPublic";
 
 const SingleToy = ({ toy }) => {
-    const { userInfo } = useContext(authContext);
-    const axiosPrivate = UseAxiosPrivate();
+    const { userInfo, getCartToys } = useContext(authContext);
+    const axiosPublic = UseAxiosPublic();
     const navig = useNavigate();
-
-    console.log(toy.rating);
 
 
     const handleAddCart = (details) => {
         if (userInfo) {
-            axiosPrivate.post(`/addCart`, { email: userInfo.email, ...details })
+            axiosPublic.post(`/addCart`, { email: userInfo.email, ...details })
                 .then(() => {
                     toast.success('Add to cart Successfully')
+                    getCartToys(userInfo?.email);
                 })
-                .catch(() => {
+                .catch((err) => {
+                    console.log(err);
                     toast.error('Add cart failed, try again!')
                 })
         }

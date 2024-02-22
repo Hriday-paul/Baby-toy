@@ -7,7 +7,7 @@ import Private from "../component/Shared/Private/Private";
 import Login from "../Pages/Login/Login";
 import AllToys from "../Pages/AllToys/AllToys";
 import ToyDetails from "../Pages/ToyDetails/ToyDetails";
-import Mycart from "../Pages/MyCart/Mycart";
+import MyToys from "../Pages/MyToys/MyToys";
 
 const router = createBrowserRouter([
   {
@@ -27,9 +27,10 @@ const router = createBrowserRouter([
         element: <AllToys></AllToys>
       },
       {
-        path: "/myCart",
-        element: <Private><Mycart></Mycart></Private>
+        path: "/myToys",
+        element: <Private><MyToys></MyToys></Private>
       },
+      
       {
         path: "/toy/:ageType/:id",
         element: <ToyDetails></ToyDetails>
