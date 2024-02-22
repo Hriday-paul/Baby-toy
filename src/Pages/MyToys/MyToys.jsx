@@ -3,7 +3,6 @@ import { authContext } from "../../ContextHandler/Authonicate/Authonicate";
 import UseAxiosPublic from '../../Hooks/UseAxiosPublic/UseAxiosPublic'
 import LoadingToys from "../../component/Shared/LoadingToys/LoadingToys";
 import { Link } from "react-router-dom";
-import { BsArrowRight } from "react-icons/bs";
 import { Toaster } from "react-hot-toast";
 import UpdateToys from "../UpdateToys/UpdateToys";
 import { Rate } from "antd";
@@ -59,11 +58,8 @@ const MyToys = () => {
                                                         </div>
                                                     </div>
 
-                                                    <div className="flex justify-between items-center">
-                                                        <button className="hover:border-white/40 w-2/3 hover:bg-[#00C4CC] flex items-center justify-center rounded-md border border-transparent bg-[#00C4CC] px-5 py-1.5 md:py-2.5 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 duration-200 focus:ring-[#00C4CC]">
-                                                            Add to cart
-                                                            <BsArrowRight className="ml-1"></BsArrowRight>
-                                                        </button>
+                                                    <div>
+                                                        
                                                         <UpdateToys toy={toy} fetchToys={fetchToys}></UpdateToys>
 
 

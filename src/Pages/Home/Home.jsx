@@ -1,13 +1,14 @@
 import HomeAgeCategory from "../../component/Ui/HomeAgeCategory";
-import HomeSlider from "../../component/Ui/HomeSlider";
 import img1 from '../../assets/1.webp'
 import img2 from '../../assets/2.webp'
+import SwiperComponent from "../../component/Ui/SwiperComponent";
+import TopRatedToy from "../../component/Ui/TopRatedToy";
 
 const Home = () => {
     return (
         <div className=" dark:bg-gray-800">
             <div className="max-w-7xl mx-auto px-4">
-                {/* <HomeSlider></HomeSlider> */}
+                <SwiperComponent></SwiperComponent>
                 <HomeAgeCategory></HomeAgeCategory>
                 <div className="flex flex-col md:flex-row gap-x-5 gap-y-5  items-center justify-center py-10">
                     <div className="overflow-hidden">
@@ -18,6 +19,7 @@ const Home = () => {
                     </div>
 
                 </div>
+                <TopRatedToy></TopRatedToy>
             </div>
         </div>
     );

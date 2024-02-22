@@ -8,10 +8,12 @@ import Login from "../Pages/Login/Login";
 import AllToys from "../Pages/AllToys/AllToys";
 import ToyDetails from "../Pages/ToyDetails/ToyDetails";
 import MyToys from "../Pages/MyToys/MyToys";
+import Error from "../Pages/Error/Error";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    errorElement : <Error></Error>,
     element: <Root></Root>,
     children: [
       {

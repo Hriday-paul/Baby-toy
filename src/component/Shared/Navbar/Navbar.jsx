@@ -10,11 +10,13 @@ import { PiSignOutFill } from "react-icons/pi";
 import { SiGnuprivacyguard } from "react-icons/si";
 import { Drawer } from 'antd';
 import SingleCart from '../SingleCart/SingleCart';
+import { RxCross2 } from 'react-icons/rx';
 
 const Navbar = ({ dark }) => {
     const { userInfo, logOut, getCartToys, cartToys } = useContext(authContext);
     const [showProfile, setShowProfile] = useState(false);
     const [openDrawer, setOpenDrawer] = useState(false);
+    const [slide, setSlide] = useState(false)
 
     const showDrawer = () => {
         setOpenDrawer(true);
@@ -35,13 +37,15 @@ const Navbar = ({ dark }) => {
 
 
     return (
-        <div className="bg-[#ffff] text-black dark:bg-[#1D232A] dark:text-white shadow-md">
-            <div className="max-w-7xl mx-auto">
+        <div className="bg-[#ffff] sticky top-0 z-50 text-black dark:bg-[#1D232A] dark:text-white shadow-md">
+            <div className="max-w-7xl mx-auto px-4">
                 {/* large device  */}
                 <div className="grid grid-cols-2 lg:grid-cols-3 justify-between items-center gap-x-5">
-                    <Link to='/'>
-                        <img className='h-16 md:h-20 lg:h-24 ' src={logo} alt="logo" />
-                    </Link>
+                    <div>
+                        <Link to='/'>
+                            <img className='h-16 md:h-20 lg:h-24 ' src={logo} alt="logo" />
+                        </Link>
+                    </div>
                     <div className='hidden lg:block'>
                         <ul className='flex flex-row gap-x-10 items-center justify-center font-nunito'>
                             <li className='text-xl font-medium relative group'>
@@ -116,7 +120,7 @@ const Navbar = ({ dark }) => {
                             <Drawer title="My cart" onClose={onClose} open={openDrawer}>
                                 <div className='flex flex-col gap-y-2 '>
                                     {
-                                        cartToys.length>0 ? cartToys?.map((toy) => {
+                                        cartToys.length > 0 ? cartToys?.map((toy) => {
                                             return <SingleCart key={toy._id} cartToy={toy}></SingleCart>
                                         }) : <div className='min-h-80 flex flex-col items-center justify-center'>
                                             <img className='h-40 w-40' src='https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-7359557-6024626.png' />
@@ -141,11 +145,45 @@ const Navbar = ({ dark }) => {
                         </label>
 
 
-                        <FiMenu className='text-2xl lg:hidden mr-5'></FiMenu>
+
+                        <div className='md:hidden'>
+                            {
+                                !slide && <FiMenu onClick={() => setSlide(true)} className='text-2xl dark:text-white'></FiMenu>
+                            }
+                            {
+                                slide && <RxCross2 className='text-2xl dark:text-white' onClick={() => setSlide(false)}></RxCross2>
+                            }
+
+                        </div>
                     </div>
                 </div>
+
             </div>
+            <div className={`absolute border-t dark:border-t-black md:hidden block top-1 left-0 py-5 shadow-2xl bg-white dark:bg-gray-800 mt-[60px] md:mt-[70px] w-4/5 h-[calc(100vh-64px)]  ${slide ? "z-50 translate-x-0" : "-translate-x-[750px]"} duration-300`}>
+                <div className='px-5'>
+                    <ul className="py-5 rounded-md">
+                        <li className='text-xl font-medium relative group'>
+                            <NavLink onClick={() => setSlide(!slide)} className='block py-2 pl-3 text-black dark:text-white pr-4 cursor-pointer' to='/'>Home</NavLink>
+
+                        </li>
+                        <li className='text-xl font-medium relative group'>
+                            <NavLink onClick={() => setSlide(!slide)} className='block py-2 pl-3 text-black dark:text-white pr-4cursor-pointer' to='/shop/all'>Shop</NavLink>
+
+                        </li>
+                        <li className='text-xl font-medium relative group'>
+                            <NavLink onClick={() => setSlide(!slide)} className='block py-2 pl-3 text-black dark:text-white pr-4cursor-pointer' to='/myToys'>My Toys</NavLink>
+
+                        </li>
+                        <li className='text-xl font-medium relative group'>
+                            <NavLink onClick={() => setSlide(!slide)} className={'block py-2 pl-3 text-black dark:text-white pr-4 cursor-pointer'} to='/addToy'>Add Toy</NavLink>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
         </div>
+
     );
 };
 
